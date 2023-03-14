@@ -1,8 +1,5 @@
 #!/usr/bin/node
 // empty class that defines a rectangle
-function Rectangle () {
-
+class Rectangle () {
 }
-
-module.exports.Rectangle = Rectangle;
-
+module.exports = Rectangle;
