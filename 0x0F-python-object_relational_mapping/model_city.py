@@ -1,19 +1,24 @@
 #!/usr/bin/python3
-"""Python file that contains the class definition of a City.
 """
-from sqlalchemy import Column, String, Integer, ForeignKey
+Module for City class
+"""
+
+
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 from model_state import Base, State
-from sqlalchemy.ext.declarative import declarative_base
-# base class contains a MetaData object where newly
-# defined Table objects are collected.
 
 
 class City(Base):
-    """ class define the states table
-    """
-    # linked to the states table
+    """ defines City class """
+
     __tablename__ = "cities"
-    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+    id = Column(Integer, autoincrement=True, nullable=False, primary_key=True)
     name = Column(String(128), nullable=False)
-    state_id = Column(Integer, ForeignKey('states.id'), autoincrement=True, nullable=False)
-    #states = relationship('State', backref="City", lazy='select')
+    state_id = Column(Integer, ForeignKey("states.id"), nullable=False)
+
+    state = relationship("State")
+
+    def __str__(self):
+        """ defines __str__ attribute """
+        return "{}".format(self.name)
