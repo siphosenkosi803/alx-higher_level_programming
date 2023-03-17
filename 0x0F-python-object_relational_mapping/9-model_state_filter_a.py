@@ -1,31 +1,34 @@
 #!/usr/bin/python3
+"""script that lists all State objects that contain the letter a from
+    the database hbtn_0e_6_usa
 """
-Module for script that lists all State objects with SQLAlchemy
-"""
-
-
-import sys
-from model_state import Base, State
-from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+import sys
 
-if __name__ == "__main__":
-    host = "localhost"
-    port = 3306
-    user = sys.argv[1]
-    passwd = sys.argv[2]
-    database = sys.argv[3]
+if __name__ == '__main__':
+    import model_state
+    from model_state import Base, State
+    # connect to the DB
+    engine = create_engine(
+        'mysql+mysqldb://{}:{}@localhost/{}'.
+        format(sys.argv[1], sys.argv[2], sys.argv[3]), pool_pre_ping=True)
+    # talk to the DB: usning sessions
 
-    engine = create_engine('mysql+mysqldb://{}:{}@{}:{}/{}'.format(user,
-                                                                   passwd,
-                                                                   host, port,
-                                                                   database))
+    # create a configured "Session" class
     Session = sessionmaker(bind=engine)
-    session = Session()
 
-    states = session.query(State).order_by(State.id).filter(state.name.like('\
-                                                            %a%'))
-    for state in states:
-        print("{}: {}".format(state.id, state.name))
-    session.close()
+    Base.metadata.create_all(engine)
 
+    # create a Session
+    mySession = Session()
+    # print(Session1.query(model_state.state).order_by(model_state.state.id).all())
+    mySessionQuery = mySession.query(model_state.State).filter(
+        model_state.State.name.like('%a%'))
+
+    if mySessionQuery:
+        for st_obj in mySessionQuery:
+            print("{}: {}".format(st_obj.id, st_obj.name))
+    else:
+        print('Nothing\n')
+    mySession.close()
