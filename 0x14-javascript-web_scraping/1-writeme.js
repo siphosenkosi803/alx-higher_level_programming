@@ -1,13 +1,7 @@
-#!/usr/bin/env node
-
-const fs = require('fs');
-
-const filePathArg = process.argv[2];
-const fileContentArg = process.argv[3];
-
-fs.writeFile(filePathArg, fileContentArg, 'utf8', (writeErr) => {
-  if (writeErr) {
-    console.error(writeErr);
-    return;
-  }
+#!/usr/bin/node
+const fileSystem = require('fs');
+const fileName = process.argv[2];
+const fileContent = process.argv[3];
+fileSystem.writeFile(fileName, fileContent, err => {
+  if (err) console.log(err);
 });
